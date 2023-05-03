@@ -54,7 +54,7 @@ In this section, we will walk through setup of the tools needed to execute this 
 1. Login to your GitHub account
 
 2. Navigate to the GitHub repository for this workshop
-    - `https://github.com/in-realtime/data-pipelines`
+    - `https://github.com/krishnannarayanaswamy/data-pipelines`
 
 3. In the top-right corner of the page, click **Fork**.
     <img width="500" src="assets/fork_button.png">
@@ -71,7 +71,7 @@ In this section, we will walk through setup of the tools needed to execute this 
 1. In a browser, navigate to your fork of the GitHub repository that you created above.
 
 2. In the browser’s address bar, prefix the entire URL with `gitpod.io/#` and press Enter.
-    - For example, `gitpod.io/#https://github.com/hiltonrosenfeld/data-pipelines`
+    - For example, `gitpod.io/#https://github.com/krishnannarayanaswamy/data-pipelines`
 3. Click on the button `Continue with GitHub`.
 
 4. Authorise GitPod to sign in with your GitHub account.
@@ -99,13 +99,13 @@ In this section, we will walk through setup of the tools needed to execute this 
 1. Login to your Astra account.
 
 2. Create a Streaming Tenant
-    1. Create a unique name for your tenant such as `irt-hilton`. We will refer to  this as `<TENANT>` in the remainder of this workshop.
+    1. Create a unique name for your tenant such as `irt`. We will refer to  this as `<TENANT>` in the remainder of this workshop.
     1. Navigate to *Streaming* in the Menu.
     2. Click the *Create Tenant* button.
     3. Create a streaming tenant using the following:
         * Tenant Name: `<TENANT>`
         * Provider: `Google Cloud`
-        * Region: `useast1`
+        * Region: `australiase1`
     
     <img width="344" src="assets/create_streaming.png">
 
@@ -152,6 +152,7 @@ Each of this will be used for concurrently running multiple Pulsar CLI commands.
     1. Select the Terminal named `2_Consumer_stocks-in`
     2. Create the consumer using the following command. The `-s` option specifies your subscription name and the `-n 0` option tells the client to consume messages continuously.
         ```sh
+        cd /workspace/data-pipelines/tools/lunastreaming-2.10.4.0/bin
         ./pulsar-client consume -s test -n 0 <TENANT>/stocks/stocks-in
         ```
 
@@ -159,6 +160,7 @@ Each of this will be used for concurrently running multiple Pulsar CLI commands.
     1. Select the Terminal named `1_File_Connector`
     2. Create the producer using the following command.
     ```sh
+        cd /workspace/data-pipelines/tools/lunastreaming-2.10.4.0/bin
         ./pulsar-client produce -m hello <TENANT>/stocks/stocks-in
     ```
 
@@ -181,6 +183,7 @@ Now that you have a topic that you can publish to, create a Pulsar file source c
     - \<TOKEN>
     - \<TENANT>
     ```
+    cd /workspace/data-pipelines/tools/lunastreaming-2.10.4.0/bin
     ./pulsar-admin sources localrun \
         --broker-service-url <BROKER SERVICE URL> \
         --client-auth-plugin org.apache.pulsar.client.impl.auth.AuthenticationToken \
@@ -249,6 +252,7 @@ Next we will add a function to the stream.  This function will consume messages 
     1. Select the Terminal named `3_Consumer_stocks-enriched`
     2. Create the consumer using the following command:
         ```sh
+        cd /workspace/data-pipelines/tools/lunastreaming-2.10.4.0/bin
         ./pulsar-client consume -s test -n 0 <TENANT>/stocks/stocks-enriched
         ```
 5. Trigger a file read
@@ -279,7 +283,7 @@ The messages that are created by consuming the stock file and then enriched by t
         * Database Name: `irt`
         * Keyspace Name: `stocks`
         * Provider: `Google`
-        * Region: `us-east1`
+        * Region: `australia-southeast1`
         
     <img width="350" src="assets/create_database.png">
 
@@ -353,7 +357,7 @@ Now that we have a table holding enriched stock data, let's enable CDC and look 
     3. Navigate to the `CDC` tab
     4. Click the *Enable CDC* button
     5. Enable CDC using the following:
-        - Tenants: `pulsar-gcp-east1 / irt`
+        - Tenants: `pulsar-gcp-australiase1 / irt`
         - Keyspace: `stocks`
         - Table Name: `stocks`
     
@@ -450,6 +454,7 @@ The last part of the stream prior to sending data to external systems is to crea
     1. Select the Terminal named `5_Consumer_stocks-aapl`
     2. Create the consumer using the following command:
         ```sh
+        cd /workspace/data-pipelines/tools/lunastreaming-2.10.4.0/bin
         ./pulsar-client consume -s test -n 0 <TENANT>/stocks/stocks-aapl
         ```
 6. Trigger a file read

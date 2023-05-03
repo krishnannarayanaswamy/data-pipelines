@@ -499,7 +499,6 @@ The ElasticSearch sink is a built in connector for Astra Streaming.  From the se
             - Strip Nulls: Disabled
             - Enable Schemas: Disabled
             - Copy Key Fields: Enabled
-            - Mapping: `uid=value.uuid,symbol=value.symbol,trade_date=value.date,open_price=value.openPrice,high_price=value.highPrice,low_price=value.lowPrice,close_price=value.closePrice,volume=value.volume`
             
         - For all other values, you can leave them set to the defaults.
 
